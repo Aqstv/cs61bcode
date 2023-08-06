@@ -16,26 +16,26 @@ public class NBody {
             double xv = in.readDouble();
             double yv = in.readDouble();
             double m = in.readDouble();
-            String name = "images/"+in.readString();
+            String name = in.readString();
             ps[i] = new Planet(xp,yp,xv,yv,m,name);
         }
         return ps;
     }
-    public static double trans = 2.50e+10;
     public static void main(String[] args) {
         double T = Double.parseDouble(args[0]);
         double dt = Double.parseDouble(args[1]);
         String filename = args[2];
         double r = readRadius(filename);
-        Planet[] p = NBody.readPlanets(filename);
+        Planet[] p = readPlanets(filename);
         StdDraw.setXscale(-r,r);
         StdDraw.setYscale(-r,r);
+        StdDraw.enableDoubleBuffering();  
         
+
 
         double t = 0;
         int n = p.length;
-        while(t < T) {
-            StdDraw.enableDoubleBuffering();
+        while(t <= T) {
             double[] xForces = new double[n];
             double[] yForces = new double[n];
             for(int i = 0 ; i < n ; i ++) {
