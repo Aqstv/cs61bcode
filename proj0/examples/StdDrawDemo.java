@@ -42,6 +42,7 @@ public class StdDrawDemo {
 		while (count < 200) {
 			/* picks random x and y between -90 and 90 */
 			double x = StdRandom.uniform(-90, 90);
+
 			double y = StdRandom.uniform(-90, 90);
 
 			/* Clears the screen. */
@@ -53,10 +54,9 @@ public class StdDrawDemo {
 			/* Reduce wait time for each thing drawn, but
 			 * never wait less than 10 milliseconds. */
 			waitTimeMilliseconds = waitTimeMilliseconds - 1;
-			if (waitTimeMilliseconds < 1) {
+			if (waitTimeMilliseconds < 10) {
 				waitTimeMilliseconds = 10;
 			}
-
 			count += 1; 
 		}
 	}

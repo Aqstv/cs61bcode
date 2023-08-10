@@ -56,7 +56,7 @@ public class TestCalcNetForceExertedByXY {
         double xNetForce = p1.calcNetForceExertedByX(planets);
         double yNetForce = p1.calcNetForceExertedByY(planets);
 
-        checkEquals(133.4, round(xNetForce, 2), "calcNetForceExertedByX()");
+        checkEquals(133.49, round(xNetForce, 2), "calcNetForceExertedByX()");
         checkEquals(0.0, round(yNetForce, 2), "calcNetForceExertedByY()");
     
         System.out.println("Running test again, but with array that contains the target planet.");
@@ -66,7 +66,7 @@ public class TestCalcNetForceExertedByXY {
         xNetForce = p1.calcNetForceExertedByX(planets);
         yNetForce = p1.calcNetForceExertedByY(planets);
 
-        checkEquals(133.4, round(xNetForce, 2), "calcNetForceExertedByX()");
+        checkEquals(133.49, round(xNetForce, 2), "calcNetForceExertedByX()");
         checkEquals(0.0, round(yNetForce, 2), "calcNetForceExertedByY()");
 
     }

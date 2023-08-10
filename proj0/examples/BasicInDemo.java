@@ -19,4 +19,4 @@ public class BasicInDemo {
 			               secondItemInFile + ", " + thirdItemInFile + ", " +
 			               fourthItemInFile + ", and " + fifthItemInFile);
 	}
-} 
+}
