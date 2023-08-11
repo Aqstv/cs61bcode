@@ -1,5 +1,5 @@
-public class LinkedListDeque <T> {
-    public class Node {
+public class LinkedListDeque<T> {
+    private class Node {
         public T t;
         public Node pre;
         public Node next;
@@ -15,8 +15,8 @@ public class LinkedListDeque <T> {
         }
 
     }
-    Node senti;
-    int size;
+    private Node senti;
+    private int size;
     public LinkedListDeque() {
         senti = new Node();
         senti.next = senti;
@@ -24,7 +24,7 @@ public class LinkedListDeque <T> {
         size = 0;
     }
     public void addFirst(T item) {
-        size ++;
+        size++;
         Node p = new Node(item);
         p.next = senti.next;
         senti.next.pre = p;
@@ -32,7 +32,7 @@ public class LinkedListDeque <T> {
         p.pre = senti;
     }
     public void addLast(T item) {
-        size ++;
+        size++;
         Node p = new Node(item);
         p.pre = senti.pre;
         senti.pre.next = p;
@@ -47,8 +47,8 @@ public class LinkedListDeque <T> {
     }
     public void printDeque() {
         Node p = senti.next;
-        while(p != senti) {
-            System.out.print(p.t.toString()+" ");
+        while (p != senti) {
+            System.out.print(p.t.toString() + " ");
             p = p.next;
         }
     }
@@ -57,7 +57,7 @@ public class LinkedListDeque <T> {
             T tt = senti.next.t;
             senti.next = senti.next.next;
             senti.next.pre = senti;
-            size --;
+            size--;
             return tt;
         }
         return null;
@@ -67,28 +67,34 @@ public class LinkedListDeque <T> {
             T tt = senti.pre.t;
             senti.pre = senti.pre.pre;
             senti.pre.next = senti;
-            size --;
+            size--;
             return tt;
         }
         return null;
     }
     public T get(int index) {
-        if (index > size-1) {return null;}
+        if (index > size - 1) {
+            return null;
+        }
         int i = 0;
         Node p = senti.next;
-        while(i < index) {
+        while (i < index) {
             p = p.next;
-            i ++;
+            i++;
         }
         return p.t;
     }
     public T getRecursive(int index) {
-        if (index > size-1) {return null;}
-        return getRecursiveHelper(senti.next,index);
+        if (index > size - 1) {
+            return null;
+        }
+        return getRecursiveHelper(senti.next, index);
     }
 
-    private T getRecursiveHelper(Node p ,int id) {
-        if (id == 0) {return p.t;}
-        return getRecursiveHelper(p.next ,id-1);
+    private T getRecursiveHelper(Node p, int id) {
+        if (id == 0) {
+            return p.t;
+        }
+        return getRecursiveHelper(p.next, id - 1);
     }
 }
