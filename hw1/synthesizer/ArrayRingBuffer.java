@@ -2,9 +2,7 @@ package synthesizer;
 
 import java.util.Iterator;
 
-//TODO: Make sure to make this class and all of its methods public
-//TODO: Make sure to make this class extend AbstractBoundedQueue<t>
-public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> implements Iterable<T> {
+public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
     /* Index for the next dequeue or peek. */
     private int first;            // index for the next dequeue or peek
     /* Index for the next enqueue. */
@@ -18,7 +16,9 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> implements Itera
     public ArrayRingBuffer(int capacity) {
         this.capacity = capacity;
         rb = (T[]) new Object[capacity];
-        first = last = fillCount = 0;
+        first = 0;
+        last = 0;
+        fillCount = 0;
     }
 
     /**
@@ -28,7 +28,6 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> implements Itera
      */
     @Override
     public void enqueue(T x) {
-        // TODO: Enqueue the item. Don't forget to increase fillCount and update last.
         if (isFull()) {
             throw new RuntimeException("Ring buffer overflow");
         }
@@ -44,7 +43,6 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> implements Itera
      */
     @Override
     public T dequeue() {
-        // TODO: Dequeue the first item. Don't forget to decrease fillCount and update
         if (isEmpty()) {
             throw new RuntimeException("Ring buffer underflow");
         }
@@ -60,10 +58,19 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> implements Itera
      */
     @Override
     public T peek() {
-        // TODO: Return the first item. None of your instance variables should change.
+        if (isEmpty()) {
+            throw new RuntimeException();
+        }
         return rb[first];
     }
-
+    @Override
+    public boolean isEmpty() {
+        return fillCount == 0;
+    }
+    @Override
+    public boolean isFull() {
+        return fillCount == capacity;
+    }
     @Override
     public Iterator<T> iterator() {
         return new ARBIterator();
