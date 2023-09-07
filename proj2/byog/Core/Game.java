@@ -1,7 +1,12 @@
 package byog.Core;
-import byog.TileEngine.*;
 
-import java.util.*;
+import byog.TileEngine.TETile;
+import byog.TileEngine.TERenderer;
+import byog.TileEngine.Tileset;
+import java.util.Comparator;
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -10,6 +15,8 @@ public class Game {
     /* Feel free to change the width and height. */
     public static final int WIDTH = 81;
     public static final int HEIGHT = 31;
+    public int roomNum;
+    public int hallwayNum;
     private Queue<Room> roomlist;
     private TETile[][] worldFrame;
     private Random rd;
@@ -65,8 +72,8 @@ public class Game {
     public void generateWorld() {
         init();
         roomlist = generateRoomList();
-        generateHallways();
         roomPrint();
+        generateHallways();
         generateDoor();
     }
     public void generateHallways() {
@@ -112,54 +119,51 @@ public class Game {
             ca = cb;
             cb = tmp;
         }
-        int flag = rd.nextInt(2);
-        if (flag == 0) {
-            int y = ca.getY();
-            int x;
-            for (x = ca.getX(); x <= cb.getX(); x++) {
-                t[x][y] = Tileset.FLOOR;
-                if (t[x][y + 1] == Tileset.NOTHING) {
-                    t[x][y + 1] = Tileset.WALL;
-                }
-                if (t[x][y - 1] == Tileset.NOTHING) {
-                    t[x][y - 1] = Tileset.WALL;
-                }
+        int y = ca.getY();
+        int x;
+        for (x = ca.getX(); x <= cb.getX(); x++) {
+            t[x][y] = Tileset.FLOOR;
+            if (t[x][y + 1] == Tileset.NOTHING) {
+                t[x][y + 1] = Tileset.WALL;
             }
-            Coor corner = new Coor(x, y);
-            for (y = Integer.min(ca.getY(), cb.getY()); y <= Integer.max(ca.getY(), cb.getY()); y++) {
-                t[x][y] = Tileset.FLOOR;
-                if (t[x + 1][y] == Tileset.NOTHING) {
-                    t[x + 1][y] = Tileset.WALL;
-                }
-                if (t[x - 1][y] == Tileset.NOTHING) {
-                    t[x - 1][y] = Tileset.WALL;
-                }
+            if (t[x][y - 1] == Tileset.NOTHING) {
+                t[x][y - 1] = Tileset.WALL;
             }
-            x = corner.getX();
-            y = corner.getY();
-            if (ca.getY() > cb.getY()) {
-                t[x - 1][y] = Tileset.FLOOR;
-                t[x][y - 1] = Tileset.FLOOR;
-                if (t[x + 1][y + 1] == Tileset.NOTHING) {
-                    t[x + 1][y + 1] = Tileset.WALL;
-                }
-                if (t[x][y + 1] == Tileset.NOTHING) {
-                    t[x][y + 1] = Tileset.WALL;
-                }
-            } else {
-                t[x - 1][y] = Tileset.FLOOR;
-                t[x][y + 1] = Tileset.FLOOR;
-                if (t[x + 1][y - 1] == Tileset.NOTHING) {
-                    t[x + 1][y - 1] = Tileset.WALL;
-                }
-                if (t[x][y - 1] == Tileset.NOTHING) {
-                    t[x][y - 1] = Tileset.WALL;
-                }
+        }
+        Coor corner = new Coor(x, y);
+        for (y = Integer.min(ca.getY(), cb.getY()); y <= Integer.max(ca.getY(), cb.getY()); y++) {
+            t[x][y] = Tileset.FLOOR;
+            if (t[x + 1][y] == Tileset.NOTHING) {
+                t[x + 1][y] = Tileset.WALL;
+            }
+            if (t[x - 1][y] == Tileset.NOTHING) {
+                t[x - 1][y] = Tileset.WALL;
+            }
+        }
+        x = corner.getX();
+        y = corner.getY();
+        if (ca.getY() > cb.getY()) {
+            t[x - 1][y] = Tileset.FLOOR;
+            t[x][y - 1] = Tileset.FLOOR;
+            if (t[x + 1][y + 1] == Tileset.NOTHING) {
+                t[x + 1][y + 1] = Tileset.WALL;
+            }
+            if (t[x][y + 1] == Tileset.NOTHING) {
+                t[x][y + 1] = Tileset.WALL;
+            }
+        } else {
+            t[x - 1][y] = Tileset.FLOOR;
+            t[x][y + 1] = Tileset.FLOOR;
+            if (t[x + 1][y - 1] == Tileset.NOTHING) {
+                t[x + 1][y - 1] = Tileset.WALL;
+            }
+            if (t[x][y - 1] == Tileset.NOTHING) {
+                t[x][y - 1] = Tileset.WALL;
             }
         }
     }
     public Queue<Room> generateRoomList() {
-        int roomNum = rd.nextInt(5) + 15;
+        roomNum = rd.nextInt(5) + 10;
         for (int i = 1; i <= roomNum; i++) {
             Room rm = randomRoom();
             roomlist.add(rm);
@@ -184,8 +188,8 @@ public class Game {
     }
 
     public Room randomRoom() {
-        int width = rd.nextInt(7) + 7;
-        int height = rd.nextInt(7) + 7;
+        int width = rd.nextInt(10) + 10;
+        int height = rd.nextInt(7) + 6;
         int x = rd.nextInt(WIDTH - width + 1);
         int y = rd.nextInt(HEIGHT - height + 1);
         return new Room(height, width, new Coor(x, y));
