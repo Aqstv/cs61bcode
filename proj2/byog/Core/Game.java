@@ -54,18 +54,16 @@ public class Game {
         return worldFrame;
     }
     public long getSeed(String input) {
-        try {
-            String pattern = "N(\\d+)S";
-            Pattern regex = Pattern.compile(pattern);
-            Matcher matcher = regex.matcher(input);
-            if (matcher.find()) {
-                return Long.parseLong(matcher.group(1));
-            } else {
-                throw new IllegalArgumentException();
+        if (input.charAt(0) == 'N' || input.charAt(0) == 'n') {
+            long sum = 0;
+            for (int i = 1; i < input.length(); i += 1) {
+                if (input.charAt(i) >= '0' && input.charAt(i) <= '9') {
+                    sum = sum * 10 + input.charAt(i) - '0';
+                } else {
+                    break;
+                }
             }
-        } catch (Exception e) {
-            System.out.println("Invalid input!");
-            System.exit(1);
+            return sum;
         }
         return 0;
     }
